@@ -1,0 +1,9 @@
+node_modules
+.env
+.vscode
+configs/*
+public/*
+views/*
+json.sqlite
+firebase.js
+serviceAccount.json

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/logo.png"/>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/topbar.css">
+    <link rel="stylesheet" href="/css/warning.css">
+    <link rel="stylesheet" href="/css/buttons.css">
+    <link rel="stylesheet" href="/css/verticalBtns.css">
+    <link rel="stylesheet" href="/css/textInputs.css">
+    <link rel="stylesheet" href="/css/loadingCircle.css">
+    <head>
+        <title>GeantWorld - Account</title>
+    </head>
+    <body>
+        <div id="topbar">
+            <img id="topbar_logo" src="/logo.png" />
+            <h1>GeantWorld</h1>
+            <div class="topbar_items">
+                <div class="btn" id="homebtn">
+                    <h1>Accueil</h1>
+                </div>
+                <div class="btn" id="recrutBtn">
+                    <h1>recrutement</h1>
+                </div>
+                <div class="btn" id="règlebtn">
+                    <h1>Règlement</h1>
+                </div>
+                <div class="btn" id="rblxbtn">
+                    <h1>Roblox Studio</h1>
+                </div>
+                <div class="btn" id="musicbtn">
+                    <h1>Musique</h1>
+                </div>
+                <div class="btn" id="loginBtn">
+                    <h1>Connexion</h1>
+                </div>
+                <div class="accountInfo">
+                    <img id="account_photo" src="/photos/default_profile_photo.png" />
+                </div>
+            </div>
+        </div>
+        <div class="loadingDiv">
+            <div class="loadingIcon" id="loadingIcon"></div>
+        </div>
+        <div class="main">
+            <img id="accountPhoto" src="/photos/default_profile_photo.png" />
+            <h1 id="pageTitle">Compte inconnu</h1>
+            <div class="verticalBtn" id="logoutBtn">
+                <h1>Se déconnecter</h1>
+            </div>
+        </div>
+    </body>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.js"></script>
+    <script src="/js/buttons.js"></script>
+    <script src="/js/textInputs.js"></script>
+    <script src="/js/topbarButtons.js"></script>
+    <script src="/js/accountInfo.js"></script>
+
+    <script>
+
+        var pageTitle = document.querySelector("#pageTitle");
+        var loadingIcon = document.querySelector("#loadingIcon");
+        var main = document.querySelector(".main");
+
+        var logoutBtn = document.querySelector("#logoutBtn");
+
+        var loggingOut = false;
+
+        logoutBtn.onclick = () => {
+            if(loggingOut === true) return;
+            loggingOut = true;
+            loadingIcon.style.display = "block";
+            main.style.display = "none";
+            axios.post("/api/v1/auth/logout")
+            .then(function(response) {
+                loggingOut = true;
+                loadingIcon.style.display = "block";
+                main.style.display = "none";
+                window.location.href = "/";
+            }).catch(function(err) {
+                loggingOut = false;
+                loadingIcon.style.display = "none";
+                main.style.display = "flex";
+            });
+        }
+
+        var isRefreshing = false;
+        var isDown = false;
+
+        axios.get("/api/v1/auth/info")
+        .then(function(response) {
+            isRefreshing = false;
+            isDown = false;
+            loadingIcon.style.display = "none";
+            main.style.display = "flex";
+            pageTitle.textContent = response.data.username;
+        }).catch(function(err) {
+            if(isDown === true) return;
+            isDown = true;
+            isRefreshing = false;
+            loadingIcon.style.display = "block";
+            main.style.display = "none";
+        });
+
+    </script>
+</html>

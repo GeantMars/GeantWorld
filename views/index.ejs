@@ -1,0 +1,107 @@
+<html>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/logo.png"/>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/topbar.css">
+    <link rel="stylesheet" href="/css/warning.css">
+    <link rel="stylesheet" href="/css/buttons.css">
+    <link rel="stylesheet" href="/css/verticalBtns.css">
+    <link rel="stylesheet" href="/css/textInputs.css">
+    <link rel="stylesheet" href="/css/loadingCircle.css">
+    <style>
+        .warningDialog {
+            display: none;
+        }
+        #Infobtn {
+            margin-bottom: 15px;
+        }
+    </style>
+    <head>
+        <title>GeantWorld - Accueil</title>
+    </head>
+    <body>
+        <div id="topbar">
+            <img id="topbar_logo" src="/logo.png" />
+            <h1>GeantWorld</h1>
+            <div class="topbar_items">
+                <div class="btn" id="rblxbtn">
+                    <h1>Roblox Studio</h1>
+                </div>
+                <div class="btn" id="recrutBtn">
+                    <h1>recrutement</h1>
+                </div>
+                <div class="btn" id="règlebtn">
+                    <h1>Règlement</h1>
+                </div>
+                <div class="btn" id="musicbtn">
+                    <h1>Musique</h1>
+                </div>
+                <div class="btn" id="VideosBtn">
+                    <h1>Vidéos</h1>
+                </div>
+                <div class="btn" id="loginBtn">
+                    <h1>Connexion</h1>
+                </div>
+                <div class="accountInfo">
+                    <img id="account_photo" src="/photos/default_profile_photo.png" />
+                </div>
+            </div>
+        </div>
+        <div class="warningDialog">
+            <img src="photos/warningIcon.png" />
+            <h1></h1>
+        </div>
+        <div id="loadingIcon"></div>
+        <div class="main">
+            <img id="pageLogo" src="/logo.png" />
+            <h1 id="pageTitle">Bienvenue sur GeantWorld !</h1>
+            <p id="pageDesc">GeantWorld, Pourquoi pas commencer dès maintenant !</p>
+            <div class="verticalBtn" id="Infobtn">
+                <h1>Plus D'informations sur GeantWorld</h1>
+            </div>
+            <div class="verticalBtn" id="YTchannel">
+                <h1>Ma chaine Youtube</h1>
+            </div>
+        </div>
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.js"></script>
+    <script src="/js/buttons.js"></script>
+    <script src="/js/textInputs.js"></script>
+    <script src="/js/topbarButtons.js"></script>
+    <script src="/js/accountInfo.js"></script>
+
+    <script>
+
+        var loadingIcon = document.querySelector("#loadingIcon");
+        var main = document.querySelector(".main");
+
+        setTimeout(() => {
+            loadingIcon.style.display = "none";
+            main.style.display = "flex";
+        }, 100);
+
+    </script>
+
+    
+</script>
+<script>
+
+ var onlineBtn = document.querySelector("#Infobtn");
+
+ onlineBtn.onclick = (e) => {
+     location.href = "/info";
+ }
+
+</script>
+<script>
+
+    var onlineBtn = document.querySelector("#YTchannel");
+   
+    onlineBtn.onclick = (e) => {
+        location.href = "https://www.youtube.com/channel/UCHqYG6Oc2gS9cu_isivWCTA";
+    }
+   
+   </script>
+</html>

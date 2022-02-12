@@ -1,0 +1,38 @@
+.textInput {
+    position: relative;
+    overflow: hidden;
+    transition: background 400ms;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.textInput input {
+    width: 500px;
+    font-family: "Outfit";
+    font-size: 20px;
+    background-color: transparent;
+    color: #fff;
+    outline: 0;
+    border: 0;
+    margin: 5px;
+}
+
+span.ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 600ms linear;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+@keyframes ripple {
+    to {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }

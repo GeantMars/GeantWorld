@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/logo.png"/>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/topbar.css">
+    <link rel="stylesheet" href="/css/warning.css">
+    <link rel="stylesheet" href="/css/buttons.css">
+    <link rel="stylesheet" href="/css/verticalBtns.css">
+    <link rel="stylesheet" href="/css/textInputs.css">
+    <link rel="stylesheet" href="/css/loadingCircle.css">
+    <link rel="stylesheet" href="/css/dialogs.css">
+    <style>
+        .warningDialog {
+            display: none;
+        }
+        #connectionError {
+            width: 100%;
+            background-color: rgb(255, 0, 0);
+            display: none;
+            border-radius: 50px;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        #connectionError[style*="display: flex;"] {
+            opacity: 0;
+            animation: show 400ms linear forwards;
+        }
+        #connectionError img {
+            margin-left: 10px;
+            width: 40px;
+            height: 40px;
+        }
+        #connectionError p {
+            margin: 5px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        #signedIn {
+            width: 100%;
+            background-color: rgb(255, 0, 0);
+            display: none;
+            border-radius: 50px;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        #signedIn[style*="display: flex;"] {
+            opacity: 0;
+            animation: show 400ms linear forwards;
+        }
+        #signedIn img {
+            margin-left: 10px;
+            width: 40px;
+            height: 40px;
+        }
+        #signedIn p {
+            margin: 5px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        #apiError {
+            width: 100%;
+            background-color: rgb(255, 0, 0);
+            display: none;
+            border-radius: 50px;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        #apiError[style*="display: flex;"] {
+            opacity: 0;
+            animation: show 400ms linear forwards;
+        }
+        #apiError img {
+            margin-left: 10px;
+            width: 40px;
+            height: 40px;
+        }
+        #apiError p {
+            margin: 5px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        #accountsRegistered {
+            font-weight: bold;
+            font-size: 20px;
+            margin-top: 82px;
+        }
+    </style>
+    <head>
+        <title>GeantWorld - Login</title>
+    </head>
+    <body>
+        <div id="topbar">
+            <img id="topbar_logo" src="/logo.png" />
+            <h1>GeantWorld</h1>
+            <div class="topbar_items">
+                <div class="btn" id="rblxbtn">
+                    <h1>Roblox Studio</h1>
+                </div>
+                <div class="btn" id="recrutBtn">
+                    <h1>recrutement</h1>
+                </div>
+                <div class="btn" id="règlebtn">
+                    <h1>Règlement</h1>
+                </div>
+                <div class="btn" id="musicbtn">
+                    <h1>Musique</h1>
+                </div>
+                <div class="btn" id="VideosBtn">
+                    <h1>Vidéos</h1>
+                </div>
+            </div>
+        </div>
+        <div class="warningDialog">
+            <img src="/photos/warningIcon.png" />
+            <h1></h1>
+        </div>
+        <div class="loadingDiv">
+            <div id="loadingIcon"></div>
+        </div>
+        <div id="connectionError">
+            <img src="/photos/warningIcon.png" />
+            <p>Échec de la récupération des informations sur le compte, il peut s'agir de problèmes de réseau/serveur.</p>
+        </div>
+        <div id="signedIn">
+            <img src="/photos/warningIcon.png" />
+            <p>Vous êtes déjà connecté.</p>
+        </div>
+        <div id="apiError">
+            <img src="/photos/warningIcon.png" />
+            <p id="apiErrorMsg">Échec de l'inscription : erreur.</p>
+        </div>
+        <div class="main">
+            <img id="pageLogo" src="/logo.png" />
+            <h1 id="pageTitle">Connexion au compte</h1>
+            <p id="pageDesc">Connectez-vous pour communiquer en ligne avec d'autres personnes !</p>
+            <div class="textInput">
+                <input id="usernameInput" placeholder="Nom d'utilisateur"/>
+            </div>
+            <div class="textInput">
+                <input id="passwordInput" placeholder="Mot de passe" type="password"/>
+            </div>
+            <div class="verticalBtn" id="loginAccountBtn">
+                <h1>Login</h1>
+            </div>
+            <p>Vous n'avez pas de compte ?</p>
+            <div class="verticalBtn" id="signupAccountBtn">
+                <h1>Aller à la page d'inscription</h1>
+            </div>
+            <p id="accountsRegistered"></p>
+        </div>
+    </body>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.js"></script>
+    <script src="/js/buttons.js"></script>
+    <script src="/js/textInputs.js"></script>
+    <script src="/js/topbarButtons.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+    
+    <script>
+
+        var loadingIcon = document.querySelector("#loadingIcon");
+        var apiError = document.querySelector("#apiError");
+
+        var loginBtn = document.querySelector("#loginAccountBtn");
+        var signupBtn = document.querySelector("#signupAccountBtn");
+
+        var usernameInput = document.querySelector("#usernameInput");
+        var emailInput = document.querySelector("#emailInput");
+        var passwordInput = document.querySelector("#passwordInput");
+
+        var apiErrorMsg = document.querySelector("#apiErrorMsg");
+
+        var loadingIcon = document.querySelector("#loadingIcon");
+        var main = document.querySelector(".main");
+        var connectionError = document.querySelector("#connectionError");
+        var signedIn = document.querySelector("#signedIn");
+        var accountsRegistered = document.querySelector("#accountsRegistered");
+
+        var connectionTimeout;
+        var isDown = false;
+        var isRefreshing = false;
+
+        var signingIn = false;
+
+        accountsRegistered.textContent = ``;
+
+        loginBtn.onclick = (e) => {
+            if(signingIn === true) return;
+            signingIn = true;
+            usernameInput.setAttribute("disabled", "true");
+            passwordInput.setAttribute("disabled", "true");
+            loadingIcon.style.display = "block";
+            apiError.style.display = "none";
+            main.style.display = "none";
+            axios.post("/api/v1/auth/login", {
+                "username": usernameInput.value,
+                "password": passwordInput.value
+            })
+            .then(function(response) {
+                signingIn = true;
+                usernameInput.setAttribute("disabled", "true");
+                passwordInput.setAttribute("disabled", "true");
+                loadingIcon.style.display = "block";
+                apiError.style.display = "none";
+                main.style.display = "none";
+                var JSONData = response.data;
+                window.location.href = "/";
+            }).catch(function(err) {
+                signingIn = false;
+                loadingIcon.style.display = "none";
+                apiError.style.display = "flex";
+                main.style.display = "flex";
+                usernameInput.removeAttribute("disabled");
+                passwordInput.removeAttribute("disabled");
+                apiErrorMsg.textContent = `${err.response.status}: ${err.response.data.errorMessage}`;
+            });
+        }
+
+        signupBtn.onclick = (e) => {
+            window.location.href = "/account/signup";
+        }
+
+        function checkRegisteredAccounts() {
+            axios.get("/api/v1/auth/usersCount")
+            .then(function(response) {
+                var JSONData = response.data;
+                accountsRegistered.textContent = `Total ${JSONData.count} comptes enregistrés !`;
+            }).catch(function(err) {
+                accountsRegistered.textContent = ``;
+            });
+        }
+
+        function check() {
+            if(isRefreshing === false) {
+                isRefreshing = true;
+                axios.get("/api/v1/auth/info")
+                .then(function(response) {
+                    loadingIcon.style.display = "none";
+                    main.style.display = "none";
+                    connectionError.style.display = "none";
+                    signedIn.style.display = "flex";
+                    isRefreshing = false;
+                    isDown = false;
+                    clearTimeout(connectionTimeout);
+                    var JSONData = response.data;
+                }).catch(function(err) {
+                    if(err.response.status === 401) {
+                        loadingIcon.style.display = "none";
+                        main.style.display = "flex";
+                        connectionError.style.display = "none";
+                        signedIn.style.display = "none";
+                    } else {
+                        if(isDown === true) return;
+                        isDown = true;
+                        connectionTimeout = setTimeout(() => {
+                            loadingIcon.style.display = "none";
+                            main.style.display = "none";
+                            connectionError.style.display = "flex";
+                            signedIn.style.display = "none";
+                            isRefreshing = false;
+                        }, 5000);
+                    }
+                });
+            }
+        }
+
+        check();
+        checkRegisteredAccounts();
+
+        setInterval(() => {
+            checkRegisteredAccounts();
+        }, 5000);
+
+    </script>
+</html>

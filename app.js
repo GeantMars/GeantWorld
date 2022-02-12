@@ -18,7 +18,7 @@ db.set("botSettings", {
 });
 
 // Start Web Server
-webServer.run(1399);
+webServer.run(1967);
 
 // Allow Permission to Set Discord Bot's Client on Website Server
 webServer.setClient(client);

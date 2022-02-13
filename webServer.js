@@ -8,6 +8,8 @@ let discoClient;
 
 if(!db.has("maintenanceMode")) db.set("maintenanceMode", false);
 
+app.enable('trust proxy');
+
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
@@ -18,6 +20,14 @@ app.use(express.static("./public/"));
 
 module.exports = {
     run: run = (port) => {
+
+        // Forcing from HTTP to HTTPS
+        app.use(function(req, res, next) {
+            if (process.env.NODE_ENV != 'development' && !req.secure) {
+               return res.redirect("https://" + req.headers.host + req.url);
+            }
+            next();
+        });
 
         // Checking for Error 503 page (Under Maintenance page)
         app.use((req, res, next) => {
